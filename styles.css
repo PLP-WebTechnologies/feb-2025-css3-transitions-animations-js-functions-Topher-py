@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
+
+  #animatedBtn {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Animation Styles */
+  @keyframes bounce {
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-40px); }
+    60%  { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+  }
+
+  @keyframes spin {
+    0%   { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .bounce {
+    animation: bounce 0.6s;
+  }
+
+  .shake {
+    animation: shake 0.5s;
+  }
+
+  .spin {
+    animation: spin 0.6s;
+  }
+
+  .controls {
+    margin-top: 20px;
+  }
+
+  select, input[type="color"] {
+    margin: 0 10px;
+    padding: 5px;
+  }

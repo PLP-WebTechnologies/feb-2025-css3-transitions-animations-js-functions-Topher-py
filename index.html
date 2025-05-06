@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Button Preferences</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h2>Interactive Animated Button</h2>
+    <button id="animatedBtn">Click Me</button>
+
+    <div class="controls">
+      <label
+        >Color:
+        <input type="color" id="btnColor" value="#4CAF50" />
+      </label>
+      <label
+        >Animation:
+        <select id="animationStyle">
+          <option value="bounce">Bounce</option>
+          <option value="shake">Shake</option>
+          <option value="spin">Spin</option>
+        </select>
+      </label>
+      <label> <input type="checkbox" id="soundToggle" /> Sound </label>
+    </div>
+  </body>
+  <script>
+    const button = document.getElementById("animatedBtn");
+    const colorInput = document.getElementById("btnColor");
+    const animSelect = document.getElementById("animationStyle");
+    const soundToggle = document.getElementById("soundToggle");
+
+    // Load preferences
+    const savedColor = localStorage.getItem("buttonColor");
+    const savedAnim = localStorage.getItem("animationStyle");
+    const savedSound = localStorage.getItem("soundEnabled");
+
+    if (savedColor) {
+      button.style.backgroundColor = savedColor;
+      colorInput.value = savedColor;
+    }
+
+    if (savedAnim) {
+      animSelect.value = savedAnim;
+    }
+
+    if (savedSound === "true") {
+      soundToggle.checked = true;
+    }
+
+    // Save color
+    colorInput.addEventListener("input", () => {
+      const newColor = colorInput.value;
+      button.style.backgroundColor = newColor;
+      localStorage.setItem("buttonColor", newColor);
+    });
+
+    // Save animation style
+    animSelect.addEventListener("change", () => {
+      localStorage.setItem("animationStyle", animSelect.value);
+    });
+
+    // Save sound toggle
+    soundToggle.addEventListener("change", () => {
+      localStorage.setItem("soundEnabled", soundToggle.checked);
+    });
+
+    // Simple beep sound using Web Audio API
+    function playBeep() {
+      const ctx = new AudioContext();
+      const oscillator = ctx.createOscillator();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+      oscillator.connect(ctx.destination);
+      oscillator.start();
+      oscillator.stop(ctx.currentTime + 0.1); // 100ms beep
+    }
+
+    // Trigger animation + sound
+    button.addEventListener("click", () => {
+      const animClass = animSelect.value;
+      button.classList.remove("bounce", "shake", "spin");
+      void button.offsetWidth; // Force reflow
+      button.classList.add(animClass);
+
+      if (soundToggle.checked) {
+        playBeep();
+      }
+    });
+  </script>
+</html>
